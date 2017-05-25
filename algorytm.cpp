@@ -327,7 +327,7 @@ void action()
         ///
         for (int i = 0; i < botsCounter; i++)  {
 
-            cout << act->getGenome() << "  genom!!!  " << act->id << " ID BOTA" << endl;
+            //cout << act->getGenome() << "  genom!!!  " << act->id << " ID BOTA" << endl;
 
             if(act->hp<=0)  {
                 Bot *helpbot;
@@ -352,24 +352,27 @@ void action()
                 if (act->getGenome()<8)  {
                     cout << "move" << endl;
                     move();
+                    pointer(check());
                 }
                 else if (7<act->getGenome()&&act->getGenome()<16) {
                     cout << "catchEatHeal" << endl;
                     catchEatHeal();
+                    pointer(check());
                 }
                 else if(15<act->getGenome()&&act->getGenome()<24) {
                     cout << "look" << endl;
+                    pointer(check());
                 }
                 else if(23<act->getGenome()&&act->getGenome()<32) {
                     cout << "atack" << endl;
                     atack();
+                    pointer(check());
                 }
                 else  {
                     cout << "moveGenomPointer" << endl;
                     pointer(act->getGenome() - check());
                 }
 
-                pointer(check());
                 act->hp--;
             }
             cout << " ------------------------------------   " << endl;
@@ -772,7 +775,7 @@ void catchEatHeal()
         else*/
     if(check()==2)
     {
-        if(act->hp<=95)
+        if(act->hp<=80)
             act->hp = act->hp + 20;
         else act->hp = 100;
 
@@ -781,6 +784,10 @@ void catchEatHeal()
     }
     else if(check()==3)
     {
+        if(act->hp<=90)
+            act->hp = act->hp + 10;
+        else act->hp = 100;
+
         klatka[Y][X].poison = false;
         poisons--;
     }
@@ -867,16 +874,8 @@ void cross()
             for( int k = 0 ; k < amount ; k++)
             {
 
-                mutationChance = rand()%amountGenomes;
-                if (mutationChance == 0)
-                {
-                    file << rand()%64 << endl;
-                }
+                file << parent1->actgenome->x << endl;
 
-                else
-                {
-                    file << parent1->actgenome->x << endl;
-                }
                 parent1->actgenome = parent1->actgenome->nextgenome;
                 parent2->actgenome = parent2->actgenome->nextgenome;
             }
@@ -885,16 +884,8 @@ void cross()
             while( parent2->actgenome != NULL )
             {
 
-                mutationChance = rand()%amountGenomes;
-                if (mutationChance == 0)
-                {
-                    file << rand()%64 << endl;
-                }
+                file << parent2->actgenome->x << endl;
 
-                else
-                {
-                    file << parent2->actgenome->x << endl;
-                }
                 parent2->actgenome = parent2->actgenome->nextgenome;
             }
 
@@ -909,14 +900,34 @@ void cross()
 
         while( parent1->actgenome != NULL )
         {
-            file << parent1->actgenome->x << endl;
+
+            mutationChance = rand()%amountGenomes;
+            if (mutationChance == 0)
+            {
+                file << rand()%64 << endl;
+            }
+
+            else
+            {
+                file << parent1->actgenome->x << endl;
+            }
 
             parent1->actgenome = parent1->actgenome->nextgenome;
         }
 
         while( parent2->actgenome != NULL )
         {
-            file << parent2->actgenome->x << endl;
+
+            mutationChance = rand()%amountGenomes;
+            if (mutationChance == 0)
+            {
+                file << rand()%64 << endl;
+            }
+
+            else
+            {
+                file << parent2->actgenome->x << endl;
+            }
 
             parent2->actgenome = parent2->actgenome->nextgenome;
         }
